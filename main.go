@@ -3,13 +3,12 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/netbox-community/go-netbox/netbox/client/tenancy"
+	"github.com/netbox-community/go-netbox/netbox/client/ipam"
+	"github.com/netbox-community/go-netbox/netbox/models"
 
 	//"github.com/digitalocean/go-netbox/netbox/models"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/netbox-community/go-netbox/netbox/client"
-	"os"
-
 	//"github.com/netbox-community/go-netbox/netbox/client/ipam"
 
 	"net/http"
@@ -184,37 +183,38 @@ func main() {
 	// working!
 	//
 
-	req4 := tenancy.NewTenancyTenantsListParams()
-	res4, err := c.Tenancy.TenancyTenantsList(req4, nil)
-	if err != nil {
-		fmt.Printf("%v\n", err)
-		os.Exit(1)
-	}
-	fmt.Printf("%v\n", res4)
-
-	///////////////////////////////////////////////////////////////////////////////////
-
-	//req3 := ipam.NewIpamPrefixesAvailableIpsListParams()
-	//req3.SetID(4)
-	//res3, err := c.Ipam.IpamPrefixesAvailableIpsList(req3, nil)
+	//req4 := tenancy.NewTenancyTenantsListParams()
+	//res4, err := c.Tenancy.TenancyTenantsList(req4, nil)
 	//if err != nil {
 	//	fmt.Printf("%v\n", err)
 	//	os.Exit(1)
 	//}
-	//fmt.Printf("%v\n", res3)
+	//fmt.Printf("%v\n", res4)
+
+	///////////////////////////////////////////////////////////////////////////////////
 
 	//
-	//params := &models.WritableIPAddress{}
+	// update description
+	// working!
 	//
-	//address := "10.0.0.32/24"
-	//params.Address = &address
-	//
-	//description := "Description updated"
-	//params.Description = description
-	//
-	//resource := ipam.NewIpamIPAddressesUpdateParams().WithData(params)
-	//_, err := c.Ipam.IpamIPAddressesUpdate(resource, nil)
-	//if err != nil {
-	//	fmt.Println(err)	}
+
+	params := &models.WritableIPAddress{}
+
+	address := "10.0.0.1/24"
+	params.Address = &address
+
+	description := "Description updated"
+	params.Description = description
+
+	//append(params.Tags, )
+
+	resource := ipam.NewIpamIPAddressesUpdateParams().WithID(25094).WithData(params)
+	_, err := c.Ipam.IpamIPAddressesUpdate(resource, nil)
+	if err != nil {
+		fmt.Println("error!")
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("Good!")
 
 }
