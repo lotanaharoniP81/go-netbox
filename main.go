@@ -3,10 +3,11 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
+	"github.com/netbox-community/go-netbox/netbox/client/tenancy"
+
 	//"github.com/digitalocean/go-netbox/netbox/models"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/netbox-community/go-netbox/netbox/client"
-	"github.com/netbox-community/go-netbox/netbox/client/ipam"
 	"os"
 
 	//"github.com/netbox-community/go-netbox/netbox/client/ipam"
@@ -74,14 +75,14 @@ func main() {
 	// working!
 	//
 
-	req3 := ipam.NewIpamPrefixesAvailableIpsListParams()
-	req3.SetID(1)
-	res3, err := c.Ipam.IpamPrefixesAvailableIpsList(req3, nil)
-	if err != nil {
-		fmt.Printf("%v\n", err)
-		os.Exit(1)
-	}
-	fmt.Printf("%v\n", len(res3.Payload))
+	//req3 := ipam.NewIpamPrefixesAvailableIpsListParams()
+	//req3.SetID(1)
+	//res3, err := c.Ipam.IpamPrefixesAvailableIpsList(req3, nil)
+	//if err != nil {
+	//	fmt.Printf("%v\n", err)
+	//	os.Exit(1)
+	//}
+	//fmt.Printf("%v\n", len(res3.Payload))
 
 	///////////////////////////////////////////////////////////////////////////////////
 
@@ -141,6 +142,14 @@ func main() {
 
 	///////////////////////////////////////////////////////////////////////////////////
 
+	// todo: add tags to IP
+	// todo: change state of IP
+	// todo: handle subnet?
+
+	///////////////////////////////////////////////////////////////////////////////////
+
+	// todo: check this section!
+
 	//res10, err := c.Ipam.IpamPrefixesAvailableIpsCreate(req7, nil)
 	//if err != nil {
 	//	fmt.Printf("%v\n", err)
@@ -168,15 +177,22 @@ func main() {
 	//	}()
 	//}
 
-	//req4 := tenancy.NewTenancyTenantsListParams()
-	//res4, err := c.Tenancy.TenancyTenantsList(req4, nil)
-	//if err != nil {
-	//	fmt.Printf("%v\n", err)
-	//	os.Exit(1)
-	//}
-	//fmt.Printf("%v\n", res4)
+	///////////////////////////////////////////////////////////////////////////////////
 
-	//c.Ipam.IpamIPAddressesList()
+	//
+	// get all tenants list
+	// working!
+	//
+
+	req4 := tenancy.NewTenancyTenantsListParams()
+	res4, err := c.Tenancy.TenancyTenantsList(req4, nil)
+	if err != nil {
+		fmt.Printf("%v\n", err)
+		os.Exit(1)
+	}
+	fmt.Printf("%v\n", res4)
+
+	///////////////////////////////////////////////////////////////////////////////////
 
 	//req3 := ipam.NewIpamPrefixesAvailableIpsListParams()
 	//req3.SetID(4)
