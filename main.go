@@ -3,8 +3,6 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
-	"time"
-
 	//"github.com/digitalocean/go-netbox/netbox/models"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/netbox-community/go-netbox/netbox/client"
@@ -96,19 +94,33 @@ func main() {
 	//)
 	//fmt.Println(ips, err)
 
-	// get the available ips per prefix
-	req7 := ipam.NewIpamPrefixesAvailableIpsCreateParams().WithID(1)
-	for i := 0; i < 1; i++ {
-		go func() {
-			res10, err := c.Ipam.IpamPrefixesAvailableIpsCreate(req7, nil)
-			if err != nil {
-				fmt.Printf("%v\n", err)
-				os.Exit(1)
-			}
-			fmt.Println(*res10.Payload.Address)
-		}()
+	//// working!
+	//// get the available ips per prefix
+	//req7 := ipam.NewIpamPrefixesAvailableIpsCreateParams().WithID(1)
+	//for i := 0; i < 1; i++ {
+	//	go func() {
+	//		res10, err := c.Ipam.IpamPrefixesAvailableIpsCreate(req7, nil)
+	//		if err != nil {
+	//			fmt.Printf("%v\n", err)
+	//			os.Exit(1)
+	//		}
+	//		fmt.Println(*res10.Payload.Address)
+	//	}()
+	//}
+	//time.Sleep(time.Second * 5)
+
+	///
+
+	// delete IP address
+	reqDelete := ipam.NewIpamIPAddressesDeleteParams().WithID(25053)
+	resDelete, err := c.Ipam.IpamIPAddressesDelete(reqDelete, nil)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+		os.Exit(1)
 	}
-	time.Sleep(time.Second * 5)
+	fmt.Println("success!")
+	fmt.Println(resDelete)
+
 	//res10, err := c.Ipam.IpamPrefixesAvailableIpsCreate(req7, nil)
 	//if err != nil {
 	//	fmt.Printf("%v\n", err)
