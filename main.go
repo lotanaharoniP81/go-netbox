@@ -3,9 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/netbox-community/go-netbox/netbox/client/ipam"
-	"github.com/netbox-community/go-netbox/netbox/models"
-
+	"github.com/netbox-community/go-netbox/netbox/client/extras"
 	//"github.com/digitalocean/go-netbox/netbox/models"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/netbox-community/go-netbox/netbox/client"
@@ -198,23 +196,36 @@ func main() {
 	// working!
 	//
 
-	params := &models.WritableIPAddress{}
+	//params := &models.WritableIPAddress{}
+	//
+	//address := "10.0.0.1/24"
+	//params.Address = &address
+	//
+	//description := "Description updated"
+	//params.Description = description
+	//
+	//resource := ipam.NewIpamIPAddressesUpdateParams().WithID(25094).WithData(params)
+	//_, err := c.Ipam.IpamIPAddressesUpdate(resource, nil)
+	//if err != nil {
+	//	fmt.Println("error!")
+	//	fmt.Println(err)
+	//	return
+	//}
+	//fmt.Println("Good!")
 
-	address := "10.0.0.1/24"
-	params.Address = &address
+	///////////////////////////////////////////////////////////////////////////////////
 
-	description := "Description updated"
-	params.Description = description
+	//
+	// get all the tags
+	// working!
+	//
 
-	//append(params.Tags, )
-
-	resource := ipam.NewIpamIPAddressesUpdateParams().WithID(25094).WithData(params)
-	_, err := c.Ipam.IpamIPAddressesUpdate(resource, nil)
+	tags := extras.NewExtrasTagsListParams()
+	list, err := c.Extras.ExtrasTagsList(tags, nil)
 	if err != nil {
-		fmt.Println("error!")
+		fmt.Println("error")
 		fmt.Println(err)
-		return
 	}
-	fmt.Println("Good!")
+	fmt.Printf("The tags: %v", list.Payload.Results[0].Display)
 
 }
