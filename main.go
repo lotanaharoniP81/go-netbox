@@ -40,14 +40,6 @@ func main() {
 	//fmt.Printf("%v\n", *(res.Payload.Count))
 	//
 	//
-	// get all IPs
-	//req2 := ipam.NewIpamIPAddressesListParams()
-	//res2, err := c.Ipam.IpamIPAddressesList(req2, nil)
-	//if err != nil {
-	//	fmt.Printf("%v\n", err)
-	//	os.Exit(1)
-	//}
-	//fmt.Printf("%v\n", *(res2.Payload.Count))
 
 	//// get all IPs
 	//req2 := ipam.NewIpamIPAddressesListParams()
@@ -94,7 +86,13 @@ func main() {
 	//)
 	//fmt.Println(ips, err)
 
-	//// working!
+	///////////////////////////////////////////////////////////////////////////////////
+
+	//
+	// get  the next available IP (create it) in the relevant prefix!
+	// working!
+	//
+
 	//// get the available ips per prefix
 	//req7 := ipam.NewIpamPrefixesAvailableIpsCreateParams().WithID(1)
 	//for i := 0; i < 1; i++ {
@@ -109,10 +107,33 @@ func main() {
 	//}
 	//time.Sleep(time.Second * 5)
 
-	///
+	///////////////////////////////////////////////////////////////////////////////////
+
+	//
+	// deletion!
+	// working!
+	//
+
+	//get all IPs
+	req2 := ipam.NewIpamIPAddressesListParams()
+	res2, err := c.Ipam.IpamIPAddressesList(req2, nil)
+	if err != nil {
+		fmt.Printf("%v\n", err)
+		os.Exit(1)
+	}
+	//fmt.Printf("%v\n", *(res2.Payload.Count))
+
+	exampleAddress := "10.0.0.4/16"
+	var exampleID int64
+	for _, ip := range res2.Payload.Results {
+		if *ip.Address == exampleAddress {
+			exampleID = ip.ID
+		}
+	}
+	fmt.Println(exampleID)
 
 	// delete IP address
-	reqDelete := ipam.NewIpamIPAddressesDeleteParams().WithID(25053)
+	reqDelete := ipam.NewIpamIPAddressesDeleteParams().WithID(exampleID)
 	resDelete, err := c.Ipam.IpamIPAddressesDelete(reqDelete, nil)
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
@@ -120,6 +141,8 @@ func main() {
 	}
 	fmt.Println("success!")
 	fmt.Println(resDelete)
+
+	///////////////////////////////////////////////////////////////////////////////////
 
 	//res10, err := c.Ipam.IpamPrefixesAvailableIpsCreate(req7, nil)
 	//if err != nil {
