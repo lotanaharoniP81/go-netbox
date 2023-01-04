@@ -94,7 +94,7 @@ func main() {
 	///////////////////////////////////////////////////////////////////////////////////
 
 	//
-	// get  the next available IP (create it) in the relevant prefix!
+	// get the next available IP (create it) in the relevant prefix!
 	// working!
 	//
 
@@ -115,7 +115,7 @@ func main() {
 	///////////////////////////////////////////////////////////////////////////////////
 
 	//
-	// deletion!
+	// deletion! (by IP address - including subnet)
 	// working!
 	//
 
@@ -209,41 +209,4 @@ func main() {
 	//if err != nil {
 	//	fmt.Println(err)	}
 
-	//ip, err := getNextAvailableIP(c, "MyIPAM Block")
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//fmt.Println(ip)
 }
-
-//func getNextAvailableIP(nbClient *client.NetBoxAPI, blockName string) (string, error) {
-//	params := ipam.NewIpamIPAddressesListParams()
-//	blocks, err := nbClient.Ipam.IpamIPAddressesList(params, nil)
-//	if err != nil {
-//		return "", err
-//	}
-//	fmt.Println(blocks)
-//
-//	//var block *models.IPAddress
-//	//for _, b := range blocks.Payload.Results {
-//	//	if b.Prefix.Description == blockName {
-//	//		block = b
-//	//		break
-//	//	}
-//	//}
-//
-//	//if block == nil {
-//	//	return "", fmt.Errorf("IPAM block with name '%s' not found", blockName)
-//	//}
-//
-//	//if err != nil {
-//	//	return "", err
-//	//}
-//
-//	//ipParams := ipam.NewIpamIPAddressesUpdateParams()
-//	//ipParams.SetID(ip.Payload.ID)
-//	//ipParams.Set
-//	//return ip.Payload.Address, nil
-//
-//	return "", nil
-//}
