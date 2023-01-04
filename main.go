@@ -3,6 +3,8 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
+	"github.com/netbox-community/go-netbox/netbox/models"
+
 	//"github.com/digitalocean/go-netbox/netbox/models"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/netbox-community/go-netbox/netbox/client"
@@ -29,53 +31,56 @@ func main() {
 
 	c := client.New(transport, nil)
 
-	//req := dcim.NewDcimSitesListParams()
-	//res, err := c.Dcim.DcimSitesList(req, nil)
-	//if err != nil {
-	//	fmt.Printf("%v\n", err)
-	//	os.Exit(1)
-	//}
-	////log.Infof("res: %v", res)
+	///////////////////////////////////////////////////////////////////////////////////
+
 	//
-	//fmt.Printf("%v\n", *(res.Payload.Count))
-	//
+	// get all the IPs
+	// working!
 	//
 
-	//// get all IPs
-	//req2 := ipam.NewIpamIPAddressesListParams()
-	//res2, err := c.Ipam.IpamIPAddressesList(req2, nil)
-	//if err != nil {
-	//	fmt.Printf("%v\n", err)
-	//	os.Exit(1)
-	//}
-	//fmt.Printf("%v\n", *(res2.Payload.Count))
+	// get all IPs
+	req2 := ipam.NewIpamIPAddressesListParams()
+	res2, err := c.Ipam.IpamIPAddressesList(req2, nil)
+	if err != nil {
+		fmt.Printf("%v\n", err)
+		os.Exit(1)
+	}
+	fmt.Printf("%v\n", *(res2.Payload.Count))
 
-	//// get all prefixes for a specific tenant
-	//var prefixes []*models.Prefix
-	//exampleTenant := "sx-sj1"
-	//req5 := ipam.NewIpamPrefixesListParams()
-	//res5, err := c.Ipam.IpamPrefixesList(req5, nil)
-	//if err != nil {
-	//	fmt.Printf("%v\n", err)
-	//	os.Exit(1)
-	//}
-	////fmt.Printf("%v\n", res5)
-	//for _, p := range res5.Payload.Results {
-	//	if p.Tenant != nil && p.Tenant.Display == exampleTenant {
-	//		prefixes = append(prefixes, p)
-	//	}
-	//}
-	//fmt.Printf("the prefixes: %v", prefixes)
+	///////////////////////////////////////////////////////////////////////////////////
 
-	//// get the available ips per prefix
-	//req3 := ipam.NewIpamPrefixesAvailableIpsListParams()
-	//req3.SetID(2)
-	//res3, err := c.Ipam.IpamPrefixesAvailableIpsList(req3, nil)
-	//if err != nil {
-	//	fmt.Printf("%v\n", err)
-	//	os.Exit(1)
-	//}
-	//fmt.Printf("%v\n", res3.Payload[0].Address)
+	//
+	// get all prefixes for a specific tenant
+	// working!
+	//
+
+	var prefixes []*models.Prefix
+	exampleTenant := "sx-il1"
+	req5 := ipam.NewIpamPrefixesListParams()
+	res5, err := c.Ipam.IpamPrefixesList(req5, nil)
+	if err != nil {
+		fmt.Printf("%v\n", err)
+		os.Exit(1)
+	}
+	for _, p := range res5.Payload.Results {
+		if p.Tenant != nil && p.Tenant.Display == exampleTenant {
+			prefixes = append(prefixes, p)
+		}
+	}
+	fmt.Printf("the prefixes: %v", prefixes)
+
+	///////////////////////////////////////////////////////////////////////////////////
+
+	// todo!!!
+	// get the available ips per prefix
+	req3 := ipam.NewIpamPrefixesAvailableIpsListParams()
+	req3.SetID(16)
+	res3, err := c.Ipam.IpamPrefixesAvailableIpsList(req3, nil)
+	if err != nil {
+		fmt.Printf("%v\n", err)
+		os.Exit(1)
+	}
+	fmt.Printf("%v\n", res3.Payload[0].Address)
 
 	//ips, err := c.Ipam.IpamPrefixesAvailableIpsCreate(
 	//	ipam.NewIpamPrefixesAvailableIpsCreateParams().WithID(1).WithData(
@@ -114,33 +119,33 @@ func main() {
 	// working!
 	//
 
-	//get all IPs
-	req2 := ipam.NewIpamIPAddressesListParams()
-	res2, err := c.Ipam.IpamIPAddressesList(req2, nil)
-	if err != nil {
-		fmt.Printf("%v\n", err)
-		os.Exit(1)
-	}
-	//fmt.Printf("%v\n", *(res2.Payload.Count))
-
-	exampleAddress := "10.0.0.4/16"
-	var exampleID int64
-	for _, ip := range res2.Payload.Results {
-		if *ip.Address == exampleAddress {
-			exampleID = ip.ID
-		}
-	}
-	fmt.Println(exampleID)
-
-	// delete IP address
-	reqDelete := ipam.NewIpamIPAddressesDeleteParams().WithID(exampleID)
-	resDelete, err := c.Ipam.IpamIPAddressesDelete(reqDelete, nil)
-	if err != nil {
-		fmt.Printf("error: %v\n", err)
-		os.Exit(1)
-	}
-	fmt.Println("success!")
-	fmt.Println(resDelete)
+	////get all IPs
+	//req2 := ipam.NewIpamIPAddressesListParams()
+	//res2, err := c.Ipam.IpamIPAddressesList(req2, nil)
+	//if err != nil {
+	//	fmt.Printf("%v\n", err)
+	//	os.Exit(1)
+	//}
+	////fmt.Printf("%v\n", *(res2.Payload.Count))
+	//
+	//exampleAddress := "10.0.0.4/16"
+	//var exampleID int64
+	//for _, ip := range res2.Payload.Results {
+	//	if *ip.Address == exampleAddress {
+	//		exampleID = ip.ID
+	//	}
+	//}
+	//fmt.Println(exampleID)
+	//
+	//// delete IP address
+	//reqDelete := ipam.NewIpamIPAddressesDeleteParams().WithID(exampleID)
+	//resDelete, err := c.Ipam.IpamIPAddressesDelete(reqDelete, nil)
+	//if err != nil {
+	//	fmt.Printf("error: %v\n", err)
+	//	os.Exit(1)
+	//}
+	//fmt.Println("success!")
+	//fmt.Println(resDelete)
 
 	///////////////////////////////////////////////////////////////////////////////////
 
@@ -170,11 +175,6 @@ func main() {
 	//		fmt.Printf("%v\n", res3.Payload[0].Address)
 	//	}()
 	//}
-
-	// todo:
-	// Get tenant -> and returns Prefixes - V
-	// How to avoid locks in case of multiple requests...
-	// check work with Ip addresses instead of prefixes - V (we can go over all the IPs - but it seems not the correct way...)
 
 	//req4 := tenancy.NewTenancyTenantsListParams()
 	//res4, err := c.Tenancy.TenancyTenantsList(req4, nil)
