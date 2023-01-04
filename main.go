@@ -3,8 +3,6 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/netbox-community/go-netbox/netbox/models"
-
 	//"github.com/digitalocean/go-netbox/netbox/models"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/netbox-community/go-netbox/netbox/client"
@@ -39,13 +37,13 @@ func main() {
 	//
 
 	// get all IPs
-	req2 := ipam.NewIpamIPAddressesListParams()
-	res2, err := c.Ipam.IpamIPAddressesList(req2, nil)
-	if err != nil {
-		fmt.Printf("%v\n", err)
-		os.Exit(1)
-	}
-	fmt.Printf("%v\n", *(res2.Payload.Count))
+	//req2 := ipam.NewIpamIPAddressesListParams()
+	//res2, err := c.Ipam.IpamIPAddressesList(req2, nil)
+	//if err != nil {
+	//	fmt.Printf("%v\n", err)
+	//	os.Exit(1)
+	//}
+	//fmt.Printf("%v\n", *(res2.Payload.Count))
 
 	///////////////////////////////////////////////////////////////////////////////////
 
@@ -54,42 +52,36 @@ func main() {
 	// working!
 	//
 
-	var prefixes []*models.Prefix
-	exampleTenant := "sx-il1"
-	req5 := ipam.NewIpamPrefixesListParams()
-	res5, err := c.Ipam.IpamPrefixesList(req5, nil)
-	if err != nil {
-		fmt.Printf("%v\n", err)
-		os.Exit(1)
-	}
-	for _, p := range res5.Payload.Results {
-		if p.Tenant != nil && p.Tenant.Display == exampleTenant {
-			prefixes = append(prefixes, p)
-		}
-	}
-	fmt.Printf("the prefixes: %v", prefixes)
+	//var prefixes []*models.Prefix
+	//exampleTenant := "sx-il1"
+	//req5 := ipam.NewIpamPrefixesListParams()
+	//res5, err := c.Ipam.IpamPrefixesList(req5, nil)
+	//if err != nil {
+	//	fmt.Printf("%v\n", err)
+	//	os.Exit(1)
+	//}
+	//for _, p := range res5.Payload.Results {
+	//	if p.Tenant != nil && p.Tenant.Display == exampleTenant {
+	//		prefixes = append(prefixes, p)
+	//	}
+	//}
+	//fmt.Printf("the prefixes: %v", prefixes)
 
 	///////////////////////////////////////////////////////////////////////////////////
 
-	// todo!!!
-	// get the available ips per prefix
+	//
+	// get the amount of the available ips per prefix
+	// working!
+	//
+
 	req3 := ipam.NewIpamPrefixesAvailableIpsListParams()
-	req3.SetID(16)
+	req3.SetID(1)
 	res3, err := c.Ipam.IpamPrefixesAvailableIpsList(req3, nil)
 	if err != nil {
 		fmt.Printf("%v\n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("%v\n", res3.Payload[0].Address)
-
-	//ips, err := c.Ipam.IpamPrefixesAvailableIpsCreate(
-	//	ipam.NewIpamPrefixesAvailableIpsCreateParams().WithID(1).WithData(
-	//		[]*models.AvailableIP{
-	//			&models.AvailableIP{Family: 4},
-	//		}),
-	//	nil,
-	//)
-	//fmt.Println(ips, err)
+	fmt.Printf("%v\n", len(res3.Payload))
 
 	///////////////////////////////////////////////////////////////////////////////////
 
